@@ -1,19 +1,21 @@
 package com.wit.model;
 
+import java.math.BigDecimal;
+
 public class CalculationResponse {
-    private double result;
+    private BigDecimal result;
 
     public CalculationResponse() {}
 
-    public CalculationResponse(double result) {
+    public CalculationResponse(BigDecimal result) {
         this.result = result;
     }
 
-    public double getResult() {
+    public BigDecimal getResult() {
         return result;
     }
 
-    public void setResult(double result) {
+    public void setResult(BigDecimal result) {
         this.result = result;
     }
 }
