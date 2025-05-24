@@ -37,6 +37,9 @@ public class CalculatorController {
 
     @GetMapping("/division")
     public Map<String, BigDecimal> divide(@RequestParam BigDecimal a, @RequestParam BigDecimal b) {
+        if (b.compareTo(BigDecimal.ZERO) == 0) {
+            throw new IllegalArgumentException("Division by zero is not allowed.");
+        }
         return process("division", a, b);
     }
 
@@ -44,6 +47,11 @@ public class CalculatorController {
         CalculationRequest request = new CalculationRequest(operation, a, b);
         producer.send(request);
         CalculationResponse response = responseListener.waitForResponse();
+
+        if (response == null) {
+            throw new IllegalStateException("No response from calculator module");
+        }
+    
         return Map.of("result", response.getResult());
     }
 }

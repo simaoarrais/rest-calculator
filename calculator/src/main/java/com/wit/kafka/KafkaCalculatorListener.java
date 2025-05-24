@@ -23,14 +23,18 @@ public class KafkaCalculatorListener {
     @KafkaListener(topics = "operations", groupId = "calculator")
     public void listen(CalculationRequest request) {
         BigDecimal result;
-        switch (request.getOperation()) {
-            case "sum" -> result = calculatorService.add(request.getA(), request.getB());
-            case "subtraction" -> result = calculatorService.subtract(request.getA(), request.getB());
-            case "multiplication" -> result = calculatorService.multiply(request.getA(), request.getB());
-            case "division" -> result = calculatorService.divide(request.getA(), request.getB());
-            default -> throw new IllegalArgumentException("Unsupported operation: " + request.getOperation());
-        }
+        try {
+            switch (request.getOperation()) {
+                case "sum" -> result = calculatorService.add(request.getA(), request.getB());
+                case "subtraction" -> result = calculatorService.subtract(request.getA(), request.getB());
+                case "multiplication" -> result = calculatorService.multiply(request.getA(), request.getB());
+                case "division" -> result = calculatorService.divide(request.getA(), request.getB());
+                default -> throw new IllegalArgumentException("Unsupported operation: " + request.getOperation());
+            };
 
-        kafkaSender.sendResponse(new CalculationResponse(result));
+            kafkaSender.sendResponse(new CalculationResponse(result));
+        } catch (Exception e) {
+            System.err.println("Error processing calculation: " + e.getMessage());
+        }
     }
 }
