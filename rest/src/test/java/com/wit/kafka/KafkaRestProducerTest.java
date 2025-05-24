@@ -9,6 +9,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 class KafkaRestProducerTest {
@@ -16,6 +17,7 @@ class KafkaRestProducerTest {
     private KafkaTemplate<String, CalculationRequest> kafkaTemplate;
     private KafkaRestProducer producer;
 
+    @SuppressWarnings("unchecked")
     @BeforeEach
     void setUp() {
         kafkaTemplate = mock(KafkaTemplate.class);

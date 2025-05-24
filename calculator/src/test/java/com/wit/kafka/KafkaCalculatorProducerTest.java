@@ -16,6 +16,7 @@ class KafkaCalculatorProducerTest {
     private KafkaTemplate<String, CalculationResponse> kafkaTemplate;
     private KafkaCalculatorProducer producer;
 
+    @SuppressWarnings("unchecked")
     @BeforeEach
     void setup() {
         kafkaTemplate = mock(KafkaTemplate.class);
