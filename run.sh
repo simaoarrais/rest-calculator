@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COMMAND=${1:-run}  # Default to 'all' if no argument is provided
+COMMAND=${1:-all}  # Default to 'all' if no argument is provided
 
 case "$COMMAND" in
   build)
