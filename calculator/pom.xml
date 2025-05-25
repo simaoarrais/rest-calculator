@@ -24,6 +24,7 @@
             <artifactId>spring-kafka</artifactId>
         </dependency>
 
+        <!-- Needed for Kafka to deserialize JSON -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -36,6 +37,7 @@
         </dependency>
     </dependencies>
 
+    <!-- Builds JAR for module -->
     <build>
         <plugins>
             <plugin>
