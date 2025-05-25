@@ -23,7 +23,11 @@
 		<license/>
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+			<id>simaoarrais</id>
+			<name>Simão Arrais</name>
+			<email>simaoarrais@gmail.com</email>
+		</developer>
 	</developers>
 	<scm>
 		<connection/>
@@ -46,14 +50,5 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>
