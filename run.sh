@@ -1,31 +1,25 @@
 #!/bin/bash
 
-# Check if an argument is passed
-if [ $# -eq 0 ]; then
-  echo "No command provided. Usage: ./run.sh [clean|build|deploy]"
-  exit 1
-fi
+COMMAND=${1:-run}  # Default to 'all' if no argument is provided
 
-case "$1" in
-  clean)
-    ./mvnw clean install
-    # ./mvnw clean package -pl calculator
-    # ./mvnw clean package -pl rest
-    ;;
-
+case "$COMMAND" in
   build)
     ./mvnw clean install
-
-    echo "Starting REST module..."
-    ./mvnw -pl rest spring-boot:run > rest.log 2>&1 &
-
-    echo "Starting Calculator module..."
-    ./mvnw -pl calculator spring-boot:run > calculator.log 2>&1 &
+    docker compose build
     ;;
-
+    
+  run)
+    docker compose up
+    ;;
+  
+  all)
+    ./mvnw clean install
+    docker compose up --build
+    ;;
+  
   *)
-    echo "Unknown command: $1"
-    echo "Usage: ./run.sh [clean|build|deploy]"
+    echo "Unknown command: $COMMAND"
+    echo "Usage: ./run.sh [build|run|all]"
     exit 1
     ;;
 esac
