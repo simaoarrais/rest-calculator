@@ -8,7 +8,11 @@ import java.math.BigDecimal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.handler.annotation.Headers;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,10 +29,17 @@ public class KafkaCalculatorListener {
     }
 
     @KafkaListener(topics = "operations", groupId = "calculator")
-    public void listen(CalculationRequest request) {
-        logger.info("Received calculation request: {}", request);
+    public void listen(@Payload CalculationRequest request, @Headers MessageHeaders headers)  {
+
+        String requestId = null;
+        if (headers.containsKey("requestId")) {
+            requestId = new String((byte[]) headers.get("requestId"));
+            MDC.put("requestId", requestId);
+        }
         
         try {
+            logger.info("Received calculation request: {}", request);
+
             BigDecimal result = switch (request.getOperation()) {
                 case "sum" -> result = calculatorService.add(request.getA(), request.getB());
                 case "subtraction" -> result = calculatorService.subtract(request.getA(), request.getB());
@@ -39,8 +50,11 @@ public class KafkaCalculatorListener {
 
             logger.info("Calculated result: {}", result);
             kafkaSender.sendResponse(new CalculationResponse(result));
+            
         } catch (Exception e) {
             logger.error("Error processing calculation request {}: {}", request, e.getMessage(), e);
+        } finally {
+            MDC.clear();
         }
     }
 }

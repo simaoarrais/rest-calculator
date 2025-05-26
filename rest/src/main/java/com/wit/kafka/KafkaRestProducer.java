@@ -7,6 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.header.internals.RecordHeader;
+import org.apache.kafka.common.header.Header;
+import org.slf4j.MDC;
+
 @Service
 public class KafkaRestProducer {
 
@@ -19,7 +26,14 @@ public class KafkaRestProducer {
     }
 
     public void send(CalculationRequest request) {
-        logger.debug("Sending CalculationRequest to topic 'operations': {}", request);
-        kafkaTemplate.send("operations", request);
+        String requestId = MDC.get("requestId");
+        ProducerRecord<String, CalculationRequest> record = new ProducerRecord<>("operations", request);
+
+        if (requestId != null) {
+            record.headers().add(new RecordHeader("requestId", requestId.getBytes(StandardCharsets.UTF_8)));
+        }
+
+        logger.debug("Sent Kafka request with ID: {}", requestId);
+        kafkaTemplate.send(record);
     }
 }
