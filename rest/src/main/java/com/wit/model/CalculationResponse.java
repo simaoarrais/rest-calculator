@@ -18,4 +18,12 @@ public class CalculationResponse {
     public void setResult(BigDecimal result) {
         this.result = result;
     }
+
+    // For better logging and debugging
+    @Override
+    public String toString() {
+        return "CalculationResponse{" +
+                "result=" + result +
+                '}';
+    }
 }

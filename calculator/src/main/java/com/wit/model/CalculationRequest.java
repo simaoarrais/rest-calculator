@@ -24,4 +24,14 @@ public class CalculationRequest {
 
     public BigDecimal getB() { return b; }
     public void setB(BigDecimal b) { this.b = b; }
+
+    // For better logging and debugging
+    @Override
+    public String toString() {
+        return "CalculationRequest{" +
+                "operation='" + operation + '\'' +
+                ", a=" + a +
+                ", b=" + b +
+                '}';
+    }
 }

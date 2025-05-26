@@ -6,11 +6,15 @@ import com.wit.service.CalculatorService;
 
 import java.math.BigDecimal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
 public class KafkaCalculatorListener {
+
+    private static final Logger logger = LoggerFactory.getLogger(KafkaCalculatorListener.class);
 
     private final CalculatorService calculatorService;
     private final KafkaCalculatorProducer kafkaSender;
@@ -22,9 +26,10 @@ public class KafkaCalculatorListener {
 
     @KafkaListener(topics = "operations", groupId = "calculator")
     public void listen(CalculationRequest request) {
-        BigDecimal result;
+        logger.info("Received calculation request: {}", request);
+        
         try {
-            switch (request.getOperation()) {
+            BigDecimal result = switch (request.getOperation()) {
                 case "sum" -> result = calculatorService.add(request.getA(), request.getB());
                 case "subtraction" -> result = calculatorService.subtract(request.getA(), request.getB());
                 case "multiplication" -> result = calculatorService.multiply(request.getA(), request.getB());
@@ -32,9 +37,10 @@ public class KafkaCalculatorListener {
                 default -> throw new IllegalArgumentException("Unsupported operation: " + request.getOperation());
             };
 
+            logger.info("Calculated result: {}", result);
             kafkaSender.sendResponse(new CalculationResponse(result));
         } catch (Exception e) {
-            System.err.println("Error processing calculation: " + e.getMessage());
+            logger.error("Error processing calculation request {}: {}", request, e.getMessage(), e);
         }
     }
 }
