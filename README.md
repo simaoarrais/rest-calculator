@@ -33,7 +33,7 @@ This project implements a distributed calculator with a **REST API** and a **Kaf
 ## 📋 Requirements
 
 - Java 21
-- Maven 3.9+
+- Maven 3.8.x+
 - Docker + Docker Compose
 
 ---
