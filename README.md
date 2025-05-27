@@ -26,7 +26,7 @@ This project implements a distributed calculator with a **REST API** and a **Kaf
 - **Unit tests** for service logic, REST controller, Kafka listener/producer
 - **SLF4J logging** with request lifecycle tracking
 - **MDC propagation** across Kafka messages using a unique request ID
-- **Logs persisted** to `/app/logs/app-%d{yyyy-MM-dd}.log` inside each container
+- **Logs persisted** to `/app/logs/app-{yyyy-MM-dd}.log` inside each container
 
 ---
 
