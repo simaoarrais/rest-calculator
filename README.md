@@ -2,6 +2,10 @@
 
 This project implements a distributed calculator with a **REST API** and a **Kafka-based communication layer** between two Spring Boot modules: `rest` and `calculator`.
 
+![Java](https://img.shields.io/badge/Java-21-blue)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.6-green)
+![Kafka](https://img.shields.io/badge/Kafka-3.8.1-orange)
+
 ---
 
 ## 📦 Modules
@@ -20,6 +24,9 @@ This project implements a distributed calculator with a **REST API** and a **Kaf
 - **Global error handling** with JSON responses
 - **Dockerized** with Docker Compose
 - **Unit tests** for service logic, REST controller, Kafka listener/producer
+- **SLF4J logging** with request lifecycle tracking
+- **MDC propagation** across Kafka messages using a unique request ID
+- **Logs persisted** to `/app/logs/app-%d{yyyy-MM-dd}.log` inside each container
 
 ---
 
@@ -86,14 +93,27 @@ Tests cover:
 - Kafka listeners and producers
 - Edge cases like division by zero, invalid input, missing parameters
 
+---
+
+## 📈 Test Coverage
+
+Generate a JaCoCo report:
+
+```bash
+mvn clean test jacoco:report
+```
+
+Open the report:
+
+```bash
+xdg-open rest/target/site/jacoco/index.html  # rest
+xdg-open calculator/target/site/jacoco/index.html  # calculator
+```
+
+---
+
 ## 👤 Developer
 
-```xml
-<developers>
-   <developer>
-      <id>simaoarrais</id>
-      <name>Simão Arrais</name>
-      <email>simaoarrais@gmail.com</email>
-   </developer>
-</developers>
-```
+- **Name**: Simão Arrais  
+- **Email**: simaoarrais@gmail.com  
+- **GitHub**: [@simaoarrais](https://github.com/simaoarrais)
