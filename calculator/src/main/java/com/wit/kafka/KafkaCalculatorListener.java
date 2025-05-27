@@ -39,6 +39,7 @@ public class KafkaCalculatorListener {
         
         try {
             logger.info("Received calculation request: {}", request);
+            logger.debug("Request ID from headers: {}", requestId);
 
             BigDecimal result = switch (request.getOperation()) {
                 case "sum" -> result = calculatorService.add(request.getA(), request.getB());
@@ -47,9 +48,9 @@ public class KafkaCalculatorListener {
                 case "division" -> result = calculatorService.divide(request.getA(), request.getB());
                 default -> throw new IllegalArgumentException("Unsupported operation: " + request.getOperation());
             };
-
-            logger.info("Calculated result: {}", result);
+            
             kafkaSender.sendResponse(new CalculationResponse(result));
+            logger.info("Calculated result: {}", result);
             
         } catch (Exception e) {
             logger.error("Error processing calculation request {}: {}", request, e.getMessage(), e);
