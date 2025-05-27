@@ -75,7 +75,7 @@ This project implements a distributed calculator with a **REST API** and a **Kaf
 Example:
 
 ```http
-GET /sum?a=2&b=3
+GET http://localhost:8080/sum?a=2&b=3
 Response: { "result": 5 }
 ```
 
