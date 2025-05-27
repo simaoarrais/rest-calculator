@@ -20,7 +20,6 @@ public class RequestIdFilter implements Filter {
             String requestId = UUID.randomUUID().toString();
             MDC.put(REQUEST_ID, requestId);
 
-            // Optionally, log the incoming request with ID
             HttpServletRequest req = (HttpServletRequest) servletRequest;
             System.out.println("Received " + req.getMethod() + " " + req.getRequestURI() + " [requestId=" + requestId + "]");
 
